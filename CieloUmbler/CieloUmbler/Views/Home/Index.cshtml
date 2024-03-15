@@ -1,0 +1,93 @@
+﻿@model CieloUmbler.API.Domain.Entities.Card
+
+@{
+    ViewData["Title"] = "Comprar";
+}
+
+<h3 class="divider">Informações da Compra</h3>
+@if (ViewBag.retorno is not null)
+{
+    <div class="alert alert-info" role="alert">
+        <strong>Payment Id</strong>&nbsp;@ViewBag.retorno
+    </div>
+
+}
+
+@if (ViewBag.messageError is not null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Oh, não - Erro!</strong>&nbsp;@ViewBag.messageError
+    </div>
+
+}
+
+
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <form asp-action="Save">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="CardNumber" class="control-label col-xs-3"></label>
+                <div class="col-xs-9">
+                    <input asp-for="CardNumber" class="form-control cardNumber" />
+                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ExpirationDate" class="control-label col-xs-3"></label>
+                <div class="col-xs-9">
+                    <input asp-for="ExpirationDate" class="form-control cardExpiration" />
+                    <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SecurityCode" class="control-label col-xs-3"></label>
+                <div class="col-xs-9">
+                    <input asp-for="SecurityCode" class="form-control cardCode" />
+                    <span asp-validation-for="SecurityCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Brand" class="control-label col-xs-3"></label>
+                <div class="col-xs-9">
+                    <input asp-for="Brand" class="form-control" readonly />
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-xs-3">Valor da Compra</label>
+                <div class="col-xs-9">
+                    <input name="valor" id="valor" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group p-2">
+
+                <input type="submit" value="Validar e concretizar compra" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-5">
+    <a asp-action="Privacy">Voltar a listagem de compras</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $().ready(function () {
+        $("#CardNumber").blur(function () {
+            if ($(this).val()[0] == '4') {
+                $("#Brand").val("Visa")
+            } else if ($(this).val()[0] == '5') {
+                $("#Brand").val("Master")
+            } else {
+                $("#Brand").val("Outras")
+            }
+        })
+    })
+</script>
